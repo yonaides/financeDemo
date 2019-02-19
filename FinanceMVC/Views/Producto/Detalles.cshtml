@@ -1,0 +1,38 @@
+﻿@model FinanceMVC.Models.Productos
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Detalle del producto</h2>
+<h2>@Model.Nombre</h2>
+
+@if (Model.EstadoTarjetas.Count == 0)
+{
+    <p> No tiene Estados de Cuentas Creados </p>
+}
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Fecha Vencimiento</th>
+            <th scope="col">Balance Pendiente</th>
+            <th scope="col">Fecha de Creacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var estadosTarjeta in Model.EstadoTarjetas)
+        {
+        <tr>
+            <td>@estadosTarjeta.FechaVencimiento</td>
+            <td>@estadosTarjeta.BalancePendiente</td>
+            <td>@estadosTarjeta.FechaCreacion</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+
+
+

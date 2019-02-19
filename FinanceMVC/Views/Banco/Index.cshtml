@@ -1,0 +1,59 @@
+﻿@model IEnumerable<FinanceMVC.Models.Bancos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bancos</h2>
+
+@if (!Model.Any())
+{
+    <p> No tiene Bancos agregados </p>
+}
+
+@Html.ActionLink("Crear", "BancoForm", "Banco", new { @class = "btn btn-primary" })
+
+<table id="bancos" class="table table-bordered table-hover ">
+    <thead>
+        <tr>
+            <th>Banco</th>
+            <th>Borrar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var banco in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(banco.NombreBanco, "Edit", "Banco", new { id = banco.BancoId }, null) </td>
+                <td><button data-banco-id="@banco.BancoId" class="btn-link js-delete">Delete</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#bancos .js-delete").on("click", function () {
+                var button = $(this);
+                var confirmar = confirm("¿Seguro que desea borrar este banco?");
+                    if (confirmar) {
+                        $.ajax({
+                            url: "/api/banco/" + button.attr("data-banco-id"),
+                            method: "DELETE",
+                            success: function () {
+                                button.parents("tr").remove();
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+
+                        });
+                    }
+                });
+            });
+    </script>
+}

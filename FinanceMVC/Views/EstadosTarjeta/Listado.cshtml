@@ -1,0 +1,52 @@
+﻿@model IEnumerable<FinanceMVC.Models.EstadoTarjetas>
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Crear", "EstadoTarjetaForm", "EstadoTajeta", new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCreacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaVencimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BalancePendiente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Productos.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaVencimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BalancePendiente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCreacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Productos.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.EstadoTarjetaId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.EstadoTarjetaId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.EstadoTarjetaId })
+        </td>
+    </tr>
+}
+
+</table>

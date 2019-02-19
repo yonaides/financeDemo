@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace FinanceMVC.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         public ActionResult Index()

@@ -1,0 +1,33 @@
+﻿@model FinanceDemoMVC.ViewModel.CompanyTarjetaCreditoFormViewModel
+
+@{
+    ViewBag.Title = "CompanyTarjetaForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.Titulo</h2>
+
+@using (Html.BeginForm("Save", "CompanyTarjeta"))
+{
+    @Html.ValidationSummary(true, "Complete los campos obligatorios", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.NombreCompany, htmlAttributes: new { @class = "form-control-label" })
+        @Html.EditorFor(model => model.NombreCompany, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.NombreCompany, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.EstadoId, htmlAttributes: new { @class = "form-control-label" })
+        @Html.DropDownListFor(m => m.EstadoId, new SelectList(Model.ListadoEstados, "EstadoId", "Descripcion"), "Selecciona el Estado", new { @class = "form-control", id = "EstadoId" })
+        @Html.ValidationMessageFor(m => m.EstadoId)
+    </div>
+
+    @Html.HiddenFor(m => m.CompanyTarjetaCreditoId)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary "> Guardar </button>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index","CompanyTarjeta")
+</div>

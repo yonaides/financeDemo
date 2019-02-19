@@ -1,0 +1,35 @@
+﻿@model IEnumerable<FinanceDemoMVC.Models.CompanyTarjetaCreditos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Compañias de Tarjetas</h2>
+
+@if (!Model.Any())
+{
+    <p> No tiene Compañias agregados </p>
+}
+
+@Html.ActionLink("Crear", "CompanyTarjetaForm", "CompanyTarjeta", new { @class = "btn btn-primary" })
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Compañia</th>
+            <th scope="col">Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var company in Model)
+        {
+        <tr>
+            <td>@Html.ActionLink(company.NombreCompany, "Edit", "CompanyTarjeta", new { id = company.CompanyTarjetaCreditoId }, null) </td>
+            <td>@company.Estados.Descripcion</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+

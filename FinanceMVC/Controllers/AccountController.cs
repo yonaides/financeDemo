@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using FinanceMVC.Models;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace FinanceMVC.Controllers
 {
@@ -17,9 +19,15 @@ namespace FinanceMVC.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private List<SelectListItem> roles = new List<SelectListItem>();
+        
         public AccountController()
         {
+            var admin = new SelectListItem { Text = "Administrador", Value = RoleName.CanManageProductos };
+            var visitor = new SelectListItem { Text = "Invitado", Value = RoleName.Guest };
+
+            roles.Add(admin);
+            roles.Add(visitor);
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -139,7 +147,13 @@ namespace FinanceMVC.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+
+            RegisterViewModel registerModel = new RegisterViewModel
+            {
+                Roles = roles
+            };
+
+            return View(registerModel);
         }
 
         //
@@ -151,10 +165,16 @@ namespace FinanceMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Nombre = model.Nombre };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
+                    var roleStore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    var roleManager = new RoleManager<IdentityRole>(roleStore);
+                    await roleManager.CreateAsync(new IdentityRole(model.RolesName));
+                    await UserManager.AddToRoleAsync(user.Id, model.RolesName);
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -169,6 +189,7 @@ namespace FinanceMVC.Controllers
             }
 
             // If we got this far, something failed, redisplay form
+            model.Roles = roles;
             return View(model);
         }
 

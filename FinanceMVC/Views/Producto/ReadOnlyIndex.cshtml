@@ -1,0 +1,64 @@
+﻿@model IEnumerable<FinanceMVC.Models.Productos>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Productos</h2>
+@if (!Model.Any())
+{
+    <p> No tiene productos agregados </p>
+}
+
+@*
+    Comentarios
+*@
+<table id="productos" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Numero</th>
+            <th scope="col">Dias de Vencimiento</th>
+            <th scope="col">Compañia de Tarjeta</th>
+            <th scope="col">Banco</th>
+            <th scope="col">Limite de Credito $RD</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#productos").DataTable({
+                ajax: {
+                    url: "/api/producto",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "nombre"
+                    },
+                    {
+                        data: "numero"
+                    },
+                    {
+                        data: "diaVencimiento"
+                    },
+                    {
+                        data: "companyTarjetaCreditos.nombreCompany"
+                    },
+                    {
+                        data: "bancos.nombreBanco"
+                    },
+                    {
+                        data: "limiteCredito"
+                    }
+                ]
+            });
+        });
+    </script>
+}
