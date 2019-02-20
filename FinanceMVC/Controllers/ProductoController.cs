@@ -16,7 +16,6 @@ namespace FinanceMVC.Controllers
             _context = new FinanceDbContext();
         }
 
-
         protected override void Dispose(bool disposing)
         {
             _context.Dispose();
@@ -58,7 +57,7 @@ namespace FinanceMVC.Controllers
 
             if (producto.ProductoId == 0)
             {
-                producto.UsuarioId = 1;
+                producto.UsuarioId = 1; // debo cambiar este magic number
                 _context.Productos.Add(producto);
             }
             else

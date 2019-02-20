@@ -48,7 +48,7 @@ namespace FinanceMVC.ViewModel
             CompanyTarjetaCreditoId = companyTarjeta.CompanyTarjetaCreditoId;
             NombreCompany = companyTarjeta.NombreCompany;
             EstadoId = companyTarjeta.EstadoId;
-
+            
         }
 
 

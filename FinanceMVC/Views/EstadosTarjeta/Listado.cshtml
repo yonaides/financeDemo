@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>View</h2>
+<h2>Listado de Estados de Tarjetas</h2>
 
 <p>
     @Html.ActionLink("Crear", "EstadoTarjetaForm", "EstadoTajeta", new { @class = "btn btn-primary" })
@@ -29,6 +29,10 @@
 
 @foreach (var item in Model) {
     <tr>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCreacion)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.FechaVencimiento)
         </td>
@@ -36,14 +40,10 @@
             @Html.DisplayFor(modelItem => item.BalancePendiente)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FechaCreacion)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Productos.Nombre)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.EstadoTarjetaId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.EstadoTarjetaId }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.EstadoTarjetaId })
         </td>
     </tr>

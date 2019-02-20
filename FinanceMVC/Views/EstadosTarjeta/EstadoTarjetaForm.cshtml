@@ -5,10 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Estado de Tarjetas</h2>
+<h1>@Model.Titulo</h1>
 
-
-@using (Html.BeginForm("Save", "EstadosTarjetas"))
+@using (Html.BeginForm("Save", "EstadosTarjeta"))
 {
     @Html.AntiForgeryToken()
 
@@ -33,20 +32,15 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ProductoId, "ProductosId", htmlAttributes: new { @class = "control-label col-md-2" })
-            @Html.DropDownListFor(m => m.ProductoId, new SelectList(Model.ListadoProductos, "ProductoId", "Nombre"), "Selecciona el producto", new { @class = "form-control", id = "ProductoId" })
-
-            @Html.ValidationMessageFor(m => m.ProductoId)
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FechaCreacion, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ProductosId, "ProductoId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FechaCreacion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FechaCreacion, "", new { @class = "text-danger" })
+                @Html.DropDownListFor(model => model.ProductosId, new SelectList(Model.ListadoProductos, "ProductoId", "Nombre"), "Selecciona el producto", new { @class = "form-control", id = "ProductosId" })
+                @Html.ValidationMessageFor(model => model.ProductosId)
             </div>
         </div>
 
+
+        @Html.HiddenFor(m => m.EstadoTarjetaId)
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <button type="submit" class="btn btn-primary "> Guardar </button>
@@ -54,11 +48,11 @@
         </div>
     </div>
 }
-  
+
 <div>
     @Html.ActionLink("Volver", "Listado")
 </div>
 
-@section Scripts {
+@section scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

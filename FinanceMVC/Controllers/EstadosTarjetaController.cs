@@ -3,6 +3,7 @@ using FinanceMVC.ViewModel;
 using System.Linq;
 using System.Web.Mvc;
 using System.Data.Entity;
+using System;
 
 namespace FinancMVC.Controllers
 {
@@ -24,31 +25,38 @@ namespace FinancMVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(CompanyTarjetaCreditos company)
+        public ActionResult Save(EstadoTarjetas estadoTarjeta)
         {
 
             if (!ModelState.IsValid)
             {
-                var viewMosdel = new CompanyTarjetaCreditoFormViewModel(company);
-                return View("CompanyTarjetaCreditoForm", viewMosdel);
+                var viewModel = new EstadoTarjetasViewModel(estadoTarjeta)
+                {
+                    ListadoProductos = _context.Productos.ToList()
+                    
+                };
+                return View("EstadoTarjetaForm", viewModel);
             }
 
-
-            if (company.CompanyTarjetaCreditoId == 0)
+            if (estadoTarjeta.EstadoTarjetaId == 0)
             {
-                _context.CompanyTarjetaCreditos.Add(company);
+                estadoTarjeta.FechaCreacion = DateTime.Now;
+                _context.EstadoTarjetas.Add(estadoTarjeta);
             }
             else
             {
-                var companyTarjetaInDb = _context.CompanyTarjetaCreditos.Single(c => c.CompanyTarjetaCreditoId == company.CompanyTarjetaCreditoId);
-                companyTarjetaInDb.CompanyTarjetaCreditoId = company.CompanyTarjetaCreditoId;
-                companyTarjetaInDb.NombreCompany = company.NombreCompany;
-                companyTarjetaInDb.EstadoId = company.EstadoId; 
-
+                var estadoTarjetaInDb = _context.EstadoTarjetas.Single(c => c.EstadoTarjetaId == estadoTarjeta.EstadoTarjetaId);
+                estadoTarjetaInDb.BalancePendiente = estadoTarjeta.BalancePendiente;
+                estadoTarjetaInDb.FechaVencimiento = estadoTarjeta.FechaVencimiento;
+                estadoTarjetaInDb.ProductosId = estadoTarjeta.ProductosId;
+                
             }
 
             _context.SaveChanges();
-            return RedirectToAction("Index", "CompanyTarjeta");
+
+            return RedirectToAction("Listado", "EstadosTarjeta");
+
+
         }
 
         public ActionResult EstadoTarjetaForm()
@@ -61,25 +69,25 @@ namespace FinancMVC.Controllers
 
         public ActionResult Edit(int id)
         {
-            var company = _context.CompanyTarjetaCreditos.SingleOrDefault(c => c.CompanyTarjetaCreditoId == id);
-
-            if (company == null)
+            var estadosTarjeta = _context.EstadoTarjetas.SingleOrDefault(c => c.EstadoTarjetaId == id);
+            if (estadosTarjeta == null)
             {
                 return HttpNotFound();
             }
 
-            var viewModel = new CompanyTarjetaCreditoFormViewModel(company);
 
-            return View("CompanyTarjetaForm", viewModel);
+            var viewModel = new EstadoTarjetasViewModel(estadosTarjeta)
+            {
+                ListadoProductos = _context.Productos.ToList()
+            };
+
+            return View("EstadoTarjetaForm", viewModel);
 
         }
 
         public ActionResult Listado()
         {
-
             var estadosTarjetas = _context.EstadoTarjetas.Include(a => a.Productos ).ToList();
-
-
             return View(estadosTarjetas);
         }
 

@@ -11,10 +11,11 @@ namespace FinanceMVC.ViewModel
     {
         
         public EstadoTarjetasViewModel()
-        {   
+        {
+            EstadoTarjetaId = 0;
         }
 
-        public int EstadoTarjetaId { get; set; }
+        public int? EstadoTarjetaId { get; set; }
 
         [Display(Name = "Fecha Vencimiento")]
         public DateTime FechaVencimiento { get; set; }
@@ -25,12 +26,32 @@ namespace FinanceMVC.ViewModel
         [Display(Name = "Fecha Creación")]
         public DateTime FechaCreacion { get; set; }
 
-        public int ProductoId { get; set; }
-
-        public Productos Producto { get; set; }
-
         [Required(ErrorMessage = "Seleccione el producto")]
+        public int ProductosId { get; set; }
+
+        public virtual Productos Producto { get; set; }
+
         public IEnumerable<Productos> ListadoProductos { get; set; }
-        
+
+
+        public string Titulo
+        {
+            get
+            {
+                return EstadoTarjetaId != 0 ? "Editando Estado" : "Nuevo Estado";
+            }
+        }
+
+        public EstadoTarjetasViewModel(EstadoTarjetas estadoTarjeta)
+        {
+            EstadoTarjetaId = estadoTarjeta.EstadoTarjetaId;
+            BalancePendiente = estadoTarjeta.BalancePendiente;
+            FechaCreacion = estadoTarjeta.FechaCreacion;
+            FechaVencimiento = estadoTarjeta.FechaVencimiento;
+            Producto = estadoTarjeta.Productos;
+            ProductosId = estadoTarjeta.ProductosId;
+
+        }
+
     }
 }
