@@ -16,7 +16,7 @@ namespace FinanceMVC.Dtos
         public int TipoTransaccionId { get; set; }
         public string Tipo { get; set; }
 
-        public virtual ICollection<TransaccionesDto> Transacciones { get; set; }
+        public ICollection<TransaccionesDto> Transacciones { get; set; }
 
     }
 }

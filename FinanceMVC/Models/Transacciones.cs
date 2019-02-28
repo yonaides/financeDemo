@@ -13,14 +13,18 @@ namespace FinanceMVC.Models
 
         public DateTime FechaCreacion { get; set; }
 
+        public DateTime FechaTransaccion { get; set; }
+
         public double Monto { get; set; }
+
+        public string Descripcion { get; set; }
 
         public int TipoTransaccionId { get; set; }
 
         public int EstadoTarjetaId { get; set; }
 
-        public virtual EstadoTarjetas EstadoTarjetas { get; set; }
+        public EstadoTarjetas EstadoTarjetas { get; set; }
 
-        public virtual TipoTransacciones TipoTransacciones { get; set; }
+        public TipoTransacciones TipoTransacciones { get; set; }
     }
 }

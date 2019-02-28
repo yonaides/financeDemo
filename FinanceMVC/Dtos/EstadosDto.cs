@@ -18,7 +18,7 @@ namespace FinanceMVC.Dtos
 
         public string Descripcion { get; set; }
 
-        public virtual ICollection<CompanyTarjetaCreditosDto> CompanyTarjetaCreditosDto { get; set; }
+        public ICollection<CompanyTarjetaCreditosDto> CompanyTarjetaCreditosDto { get; set; }
 
 
     }

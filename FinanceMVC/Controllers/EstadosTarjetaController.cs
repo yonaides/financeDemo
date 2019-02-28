@@ -10,13 +10,10 @@ namespace FinancMVC.Controllers
     public class EstadosTarjetaController : Controller
     {
         private FinanceDbContext _context;
-
-
         public EstadosTarjetaController()
         {
             _context = new FinanceDbContext();
         }
-
 
         protected override void Dispose(bool disposing)
         {
@@ -47,15 +44,14 @@ namespace FinancMVC.Controllers
             {
                 var estadoTarjetaInDb = _context.EstadoTarjetas.Single(c => c.EstadoTarjetaId == estadoTarjeta.EstadoTarjetaId);
                 estadoTarjetaInDb.BalancePendiente = estadoTarjeta.BalancePendiente;
+                estadoTarjetaInDb.FechaEstado = estadoTarjeta.FechaEstado;
                 estadoTarjetaInDb.FechaVencimiento = estadoTarjeta.FechaVencimiento;
                 estadoTarjetaInDb.ProductosId = estadoTarjeta.ProductosId;
                 
             }
 
             _context.SaveChanges();
-
             return RedirectToAction("Listado", "EstadosTarjeta");
-
 
         }
 

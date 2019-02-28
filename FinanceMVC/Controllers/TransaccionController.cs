@@ -1,11 +1,25 @@
-﻿using System;
+﻿using FinanceMVC.Models;
+using System;
 using System.Web.Mvc;
 
 namespace FinanceMVC.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class TransaccionController : Controller
     {
+
+        private FinanceDbContext _context;
+
+        public TransaccionController()
+        {
+            _context = new FinanceDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
 
         public ActionResult Index()
         {
@@ -17,6 +31,13 @@ namespace FinanceMVC.Controllers
             return Content( String.Format("Producto = {0} año = {1}  Mes = {2} ", producto, year, month) );
         }
 
+        [HttpPost]
+        public ActionResult save()
+        {
+
+            return RedirectToAction("Index", "Producto");
+
+        }
 
     }
 }

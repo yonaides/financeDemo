@@ -15,6 +15,8 @@ namespace FinanceMVC.Dtos
 
         public int EstadoTarjetaId { get; set; }
 
+        public DateTime? FechaEstado { get; set; }
+
         public DateTime FechaVencimiento { get; set; }
 
         public double BalancePendiente { get; set; }
@@ -23,9 +25,9 @@ namespace FinanceMVC.Dtos
 
         public DateTime FechaCreacion { get; set; }
 
-        public virtual ProductosDto ProductosDto { get; set; }
+        public ProductosDto ProductosDto { get; set; }
 
-        public virtual ICollection<TransaccionesDto> TransaccionesDto { get; set; }
+        public ICollection<TransaccionesDto> TransaccionesDto { get; set; }
 
     }
 }

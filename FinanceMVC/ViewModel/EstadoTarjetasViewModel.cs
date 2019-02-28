@@ -17,6 +17,9 @@ namespace FinanceMVC.ViewModel
 
         public int? EstadoTarjetaId { get; set; }
 
+        [Display(Name = "Fecha del Estado")]
+        public DateTime? FechaEstado { get; set; }
+
         [Display(Name = "Fecha Vencimiento")]
         public DateTime FechaVencimiento { get; set; }
 
@@ -47,8 +50,8 @@ namespace FinanceMVC.ViewModel
             EstadoTarjetaId = estadoTarjeta.EstadoTarjetaId;
             BalancePendiente = estadoTarjeta.BalancePendiente;
             FechaCreacion = estadoTarjeta.FechaCreacion;
+            FechaEstado = estadoTarjeta.FechaEstado;
             FechaVencimiento = estadoTarjeta.FechaVencimiento;
-            Producto = estadoTarjeta.Productos;
             ProductosId = estadoTarjeta.ProductosId;
 
         }

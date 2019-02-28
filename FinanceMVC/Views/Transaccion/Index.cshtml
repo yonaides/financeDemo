@@ -1,8 +1,102 @@
-﻿
+﻿@model dynamic
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Nueva transacción";
 }
 
-<h2>Transacciones</h2>
+<h2>Nueva transacción</h2>
 
+<form>
+
+    <div class="form-group">
+        <label class="" for="selectbasic">Seleccione el producto</label>
+        <select id="productos" name="selectbasic" class="form-control"></select>
+
+    </div>
+
+    <div class="form-group">
+        <label>Estado de Tarjeta</label>
+        <input id="estadoTarjeta" type="text" value="" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label class="" for="selectbasic"></label>
+        <select id="tipoTransaccion" name="selectbasic" class="form-control">
+            <option value="1">Debito</option>
+            <option value="2">Credito</option>
+        </select>
+
+    </div>
+
+    <div class="form-group">
+        <label>Descripción</label>
+        <input type="text" value="" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Monto</label>
+        <input type="text" value="" class="form-control" />
+    </div>
+
+    <button class="btn btn-primary">Guardar</button>
+</form>
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#productos").on("change", function (data) {
+                var productoId = $(this).find("option:selected").attr('value') ;
+                buscarEstadosTarjetas(productoId);
+
+            });
+
+            llenarComboProcutos();
+
+            function buscarEstadosTarjetas(data) {
+
+                console.log('api/estadostarjetas/productoid/' + data + '?query=%QUERY');
+
+                var estadosTarjetas = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('fechaEstado'),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    remote: {
+                        url: 'api/estadostarjetas/productoid/' + data + '?query=%QUERY',
+                        wildcard: '%QUERY'
+                    }
+                });
+
+                $('#estadoTarjeta').typeahead({
+                    minLength: 4,
+                    highlight: false
+                }, {
+                    name: 'estadoTarjetas',
+                    display: 'fechaEstado',
+                    source: estadosTarjetas
+                   });
+            }
+
+
+            function llenarComboProcutos() {
+
+                var buscarProductos = $.ajax({
+                    method: "GET",
+                    url: "http://localhost:1214/api/producto",
+                    dataType: "json"
+                });
+
+                buscarProductos.done(function (data) {
+                    var $productoSelect = $("#productos");
+                    $productoSelect.find('option').remove();
+                    $.each(data, function (i, item) {
+                        $productoSelect.append('<option value=' + item.productoId + '>' + item.nombre + '</option>')
+                    });
+                })
+            }
+
+        });
+
+
+    </script>
+}

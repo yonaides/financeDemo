@@ -17,6 +17,8 @@ namespace FinanceMVC.Models
         [Key]
         public int EstadoTarjetaId { get; set; }
 
+        public DateTime? FechaEstado { get; set; }
+
         public DateTime FechaVencimiento { get; set; }
 
         public double BalancePendiente { get; set; }
@@ -25,9 +27,9 @@ namespace FinanceMVC.Models
 
         public DateTime FechaCreacion { get; set; }
 
-        public virtual Productos Productos { get; set; }
+        public Productos Productos { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transacciones> Transacciones { get; set; }
+        public ICollection<Transacciones> Transacciones { get; set; }
     }
 }

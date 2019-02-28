@@ -13,10 +13,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FechaCreacion)
+            @Html.DisplayNameFor(model => model.FechaEstado)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.FechaVencimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaCreacion)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.BalancePendiente)
@@ -24,17 +27,20 @@
         <th>
             @Html.DisplayNameFor(model => model.Productos.Nombre)
         </th>
+        <th>Transacciones</th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
-
         <td>
-            @Html.DisplayFor(modelItem => item.FechaCreacion)
+            @Html.DisplayFor(modelItem => item.FechaEstado)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FechaVencimiento)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCreacion)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.BalancePendiente)
@@ -45,6 +51,9 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.EstadoTarjetaId }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.EstadoTarjetaId })
+        </td>
+        <td>
+            @Html.ActionLink("Agregar", "Listado", "Transaccion", new { id = item.EstadoTarjetaId })
         </td>
     </tr>
 }

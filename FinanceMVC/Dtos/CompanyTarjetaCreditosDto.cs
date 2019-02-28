@@ -20,8 +20,8 @@ namespace FinanceMVC.Dtos
 
         public int EstadoId { get; set; }
 
-        public virtual EstadosDto Estados { get; set; }
+        public EstadosDto Estados { get; set; }
 
-        public virtual ICollection<ProductosDto> ProductosDto { get; set; }
+        public ICollection<ProductosDto> ProductosDto { get; set; }
     }
 }

@@ -48,9 +48,9 @@ namespace FinanceMVC.ViewModel
         [Required(ErrorMessage = "Seleccione el Banco")]
         public int BancoId { get; set; }
 
-        public virtual Bancos Banco { get; set; }
+        public Bancos Banco { get; set; }
 
-        public virtual CompanyTarjetaCreditos CompanyTarjetaCredito { get; set; }
+        public CompanyTarjetaCreditos CompanyTarjetaCredito { get; set; }
 
         public IEnumerable<Bancos> ListadoBancos { get; set; }
 

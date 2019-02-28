@@ -10,7 +10,6 @@ namespace FinanceMVC.Controllers.Api
 {
     public class ProductoController : ApiController
     {
-
         private FinanceDbContext _context;
 
         public ProductoController()
