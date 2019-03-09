@@ -24,7 +24,7 @@ namespace FinanceMVC.Dtos
 
         public EstadoTarjetasDto EstadoTarjetasDto { get; set; }
 
-        public TipoTransaccionesDto TipoTransacciones { get; set; }
+        public TipoTransaccionesDto TipoTransaccionesDto { get; set; }
 
     }
 }

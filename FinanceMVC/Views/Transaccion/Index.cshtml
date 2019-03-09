@@ -5,10 +5,10 @@
 
 <h2>Nueva transacción</h2>
 
-<form>
+<form id="transaccionForm">
 
     <div class="form-group">
-        <label class="" for="selectbasic">Seleccione la tarjeta</label>       
+        <label class="" for="selectbasic">Seleccione la tarjeta</label>
         <select id="productos" name="selectbasic" class="form-control"></select>
     </div>
 
@@ -18,7 +18,7 @@
             <input id="estadoTarjeta" type="text" class="form-control" placeholder="Estado Tarjetas" />
             <input type="hidden" id="estadoTarjetaId" name="estadoTarjeta" value="">
         </div>
-        
+
     </div>
 
     <div class="form-group">
@@ -52,41 +52,94 @@
     <table class="table" id="detalleTransacciones">
         <thead class="thead-dark">
             <tr>
+                <th>index</th>
                 <th>Tarjeta</th>
                 <th>Fecha Estado</th>
                 <th>Transacción</th>
                 <th>Descripción</th>
                 <th>Monto</th>
                 <th>Fecha</th>
+                <th></th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
 </form>
 
-
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(document).ready(function () {
 
-            $('#detalleTransacciones').DataTable();
-            var transaccion = {};
-            var transacciones = {
-                listado: []
-            };
+            $("#transaccionForm").submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "http://localhost:1214/api/registrartransacciones/NewTransacction",
+                    method: "post",
+                    data: TransaccionesEstadosTarjetasDto
+                })
+                    .done(function () {
+                        console.log(TransaccionesEstadosTarjetasDto);
+                        limpiarGrid();
+                        limpiarformulario()
+                        toastr.success("Transacción enviada");
+                    })
+                    .fail(function (e) {
+                        console.log(e);
+                        toastr.error("Error en los datos ");
+                    })
+            });
 
+            var table = $('#detalleTransacciones').DataTable();
+            table.column(0).visible(false);
+
+            var TransaccionesEstadosTarjetasDto = {
+                Transacciones: []
+            };
             var producto = {};
 
-            llenarComboProcutos();
+            llenarComboProductos();
 
             $("#productos").on("change", function (data) {
 
                 producto.productoId = $(this).find("option:selected").attr('value');
                 producto.nombre = $("#productos option:selected").text();
-               
+
                 buscarEstadosTarjetas(producto.productoId);
             });
+
+            $('#btnAgregar').click(function () {
+                agregarTransaccion();
+            })
+
+            $("#detalleTransacciones").on("click", "#btnEliminar", function () {
+
+                var table = $('#detalleTransacciones').DataTable();
+                var button = $(this);
+                var rowData = table.rows(button.parents("tr")).data().toArray();
+
+                $.each(rowData, function (i, item) {
+
+                    var primaryKey = item[0];
+
+                    /*console.log("Antes");
+                    console.log(TransaccionesEstadosTarjetasDto.Transacciones.length);*/
+
+                    TransaccionesEstadosTarjetasDto.Transacciones = $.grep(TransaccionesEstadosTarjetasDto.Transacciones, function (data) {
+                        return data.index != primaryKey;
+                    });
+
+                    /*console.log("Despues");
+                    console.log(TransaccionesEstadosTarjetasDto.Transacciones.length);*/
+
+                });
+
+                table.row(button.parents("tr")).remove().draw();
+
+
+            });
+
 
             function buscarEstadosTarjetas(data) {
 
@@ -115,33 +168,55 @@
                     });
             };
 
-            $('#btnAgregar').click(function () {
-                agregarTransaccion();
-            })
-
             function agregarTransaccion() {
 
                 var detalleTransaccionTable = $('#detalleTransacciones').DataTable();
 
-                transaccion.productoId = $("#productos option:selected").attr("value");
-                transaccion.EstadoTarjetaId = $("#estadoTarjetaId").val();
-                transaccion.FechaTransaccion = $("#FechaTransaccion").val();
-                transaccion.Monto = $("#Monto").val();
-                transaccion.Descripcion = $("#Descripcion").val();
+                var TransaccionesDto = {
+                    index: TransaccionesEstadosTarjetasDto.Transacciones.length,
+                    transaccionId: 0,
+                    FechaCreacion: "",
+                    productoId: $("#productos option:selected").attr("value"),
+                    EstadoTarjetaId: $("#estadoTarjetaId").val(),
+                    EstadoTarjetasDto: {
+                        EstadoTarjetaId: $("#estadoTarjetaId").val()
+                    },
+                    FechaTransaccion: $("#FechaTransaccion").val(),
+                    Monto: $("#Monto").val(),
+                    Descripcion: $("#Descripcion").val(),
+                    TipoTransaccionId: $("#tipoTransaccion option:selected").attr("value"),
+                    TipoTransaccionesDto: {
+                        TipoTransaccionId: $("#tipoTransaccion option:selected").attr("value")
+                    }
+                };
+
+                /*TransaccionesDto.TipoTransaccionId = 0;
+                TransaccionesDto.transaccionId = 0;
+                TransaccionesDto.FechaCreacion = "";
+                TransaccionesDto.productoId = $("#productos option:selected").attr("value");
+                TransaccionesDto.EstadoTarjetasDto.EstadoTarjetaId = $("#estadoTarjetaId").val();
+                TransaccionesDto.FechaTransaccion = $("#FechaTransaccion").val();
+                TransaccionesDto.Monto = $("#Monto").val();
+                TransaccionesDto.Descripcion = $("#Descripcion").val();
+                TransaccionesDto.TipoTransaccionesDto.TipoTransaccionId = 1;*/
 
 
-                detalleTransaccionTable.row.add([$("#productos option:selected").text(),
-                $("#estadoTarjeta").val(),
-                $("#tipoTransaccion option:selected").text(),
-                $("#Descripcion").val(),
-                $("#Monto").val(),
-                $("#FechaTransaccion").val()]).draw(false);
-                transacciones.listado.push(transaccion);
+                detalleTransaccionTable.row.add([TransaccionesDto.index,
+                 $("#productos option:selected").text(),
+                 $("#estadoTarjeta").val(),
+                 $("#tipoTransaccion option:selected").text(),
+                 $("#Descripcion").val(),
+                 $("#Monto").val(),
+                 $("#FechaTransaccion").val(),
+                    '<input id="btnEliminar" type="button" class="btn btn-danger" value="Eliminar"/>']).draw(false);
 
+                TransaccionesEstadosTarjetasDto.Transacciones.push(TransaccionesDto);
+
+                //console.log(TransaccionesDto);
 
             };
 
-            function llenarComboProcutos() {
+            function llenarComboProductos() {
 
                 var buscarProductos = $.ajax({
                     method: "GET",
@@ -156,6 +231,26 @@
                         $productoSelect.append('<option value=' + item.productoId + '>' + item.nombre + '</option>')
                     });
                 })
+            }
+
+            function limpiarGrid() {
+                var table = $('#detalleTransacciones').DataTable();
+                table.clear().draw();
+
+            }
+
+            function limpiarformulario() {
+
+                $("#Descripcion").val('');
+                $("#Monto").val('');
+                $("#estadoTarjetaId").val(0);
+                $("#FechaTransaccion").val('');
+
+                TransaccionesEstadosTarjetasDto = {
+                    EstadoTarjetaId: 0,
+                    Transacciones: []
+                }
+
             }
 
         });

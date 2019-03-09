@@ -8,20 +8,26 @@ using System.Web.Http;
 
 namespace FinanceMVC.Controllers.Api
 {
-    public class RegistrarTransacciones : ApiController
+    public class RegistrarTransaccionesController : ApiController
     {
         private FinanceDbContext _context;
 
-        public RegistrarTransacciones()
+        public RegistrarTransaccionesController()
         {
             _context = new FinanceDbContext();
         }
 
         [HttpPost]
-        public IHttpActionResult CreateNewTransacction(List<TransaccionesDto> newTransacciones)
+        public IHttpActionResult CreateNewTransacction(TransaccionesEstadosTarjetasDto newTransacciones)
         {
 
-            foreach (var transaccion in newTransacciones)
+            if (newTransacciones == null  )
+            {
+                return BadRequest("Transacciones estan vacias");
+            }
+
+
+            foreach (var transaccion in newTransacciones.Transacciones)
             {
                 var estadoCuenta = _context.EstadoTarjetas.SingleOrDefault(c => c.EstadoTarjetaId == transaccion.EstadoTarjetaId);
 
@@ -34,7 +40,7 @@ namespace FinanceMVC.Controllers.Api
 
                 if (tipoTransaccion == null)
                 {
-                    return BadRequest("Tipo Transaccion no encontrado");
+                    return BadRequest("Tipo Transacción no encontrado");
                 }
 
 
@@ -53,8 +59,17 @@ namespace FinanceMVC.Controllers.Api
 
             }
 
+            _context.SaveChanges();
             return Ok();
 
         }
+
+
+        [HttpGet]
+        public IHttpActionResult GetTransacction()
+        {
+            return Ok();
+        }
+
     }
 }
