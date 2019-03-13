@@ -1,0 +1,48 @@
+Modulo 1
+-*Perfil Administrador*-
+  -Creación Servicios
+	[ Nombre del servicio    ]
+	[ Precio del servicio    ]
+ 	[ %Comisión por servicio ]
+	[ Estado activo		 ]
+
+  ---Accciones---
+  *Activar/DesActicar Servicios
+
+
+  -Creación Peluqueros
+   	[ Nombre Peluquero 	  ]
+	[ Direccion del peluquero ]
+	[ Identificación	  ]
+	[ Fecha nacimiento	  ]
+	[ Estado activo		  ]
+	[ Servicios peluqueros	  ]
+	[ Usuario de la app	  ]
+	[ Clave App	 	  ]
+
+  ---Accciones---
+  *Activar/DesActicar Peluqueros
+
+Modulo 2
+-*Perfil Cliente*-
+  -Creación de Clientes
+  	[ First Name y Last Name ]
+	[ Picture	      	 ]
+	[ Credit Card	      	 ]
+	[ Valid		      	 ]
+	[ SCV		      	 ]
+	[ Credit Card Type    	 ]
+
+  ---Accciones---
+  *Lugar a Realizar Servicio
+  *Realizar Petición
+  *Aceptar/Cancelar Petición [Mostrar foto]
+  *Ver Ultimo peluquero que realizo servicio
+
+Modulo 3 
+-*Perfil Cliente*-
+ -Historial
+	[Servicios Realizados] -> Fecha, Peluquero, monto, credit card
+
+// Preguntas
+Se cobrara un porciento(%) por distancia?
