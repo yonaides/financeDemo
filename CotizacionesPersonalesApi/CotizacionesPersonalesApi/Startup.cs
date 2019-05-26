@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using CotizacionesPersonalesApi.Filters;
 
 namespace CotizacionesPersonalesApi
 {
@@ -27,7 +28,13 @@ namespace CotizacionesPersonalesApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services
+                .AddMvc(options => 
+                {
+                    options.Filters.Add<JsonExceptionFilter>();
+                    options.Filters.Add<RequireHttpsOrCloseAttr>();
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSwaggerDocument();
 
             services.AddRouting(Options => Options.LowercaseUrls = true);
@@ -60,7 +67,7 @@ namespace CotizacionesPersonalesApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
