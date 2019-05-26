@@ -9,7 +9,7 @@ namespace CotizacionesPersonalesApi.Filters
 {
     public class RequireHttpsOrCloseAttr : RequireHttpsAttribute
     {
-        public override void OnAuthorization(AuthorizationFilterContext filterContext)
+        protected override void HandleNonHttpsRequest(AuthorizationFilterContext filterContext)
         {
             filterContext.Result = new StatusCodeResult(400);
         }

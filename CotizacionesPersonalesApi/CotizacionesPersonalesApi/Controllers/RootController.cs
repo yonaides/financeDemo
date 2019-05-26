@@ -20,8 +20,13 @@ namespace CotizacionesPersonalesApi.Controllers
                 href = Url.Link(nameof(GetRoot), null),
                 rooms = new
                 {
-                    href = Url.Link(nameof(ClientesController.GetClientes), null)
+                    href = Url.Link(nameof(ClienteController.GetClientes), null)
+                },
+                info = new
+                {
+                    href = Url.Link(nameof(InfoController.GetInfo), null)
                 }
+
             };
 
             return Ok(response);

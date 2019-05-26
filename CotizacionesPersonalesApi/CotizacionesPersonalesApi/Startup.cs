@@ -14,6 +14,7 @@ using NSwag.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using CotizacionesPersonalesApi.Filters;
 using CotizacionesPersonalesApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CotizacionesPersonalesApi
 {
@@ -29,9 +30,11 @@ namespace CotizacionesPersonalesApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ClienteInfo>(
-                Configuration.GetSection("Info")
-                );
+            services.Configure<ClienteInfo>( Configuration.GetSection("Info"));
+
+            // use in-memory  database for quik dev and testing 
+            // TODO: Swap out for real database in production 
+            services.AddDbContext<CotizacionesPersonalesApiDbContext>(options => options.UseInMemoryDatabase(databaseName : "cotizaciondb"));
 
             services
                 .AddMvc(options => 
@@ -40,9 +43,9 @@ namespace CotizacionesPersonalesApi
                     options.Filters.Add<RequireHttpsOrCloseAttr>();
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddSwaggerDocument();
 
             services.AddRouting(Options => Options.LowercaseUrls = true);
+
             services.AddApiVersioning(options =>
             {
                 options.DefaultApiVersion = new ApiVersion(1,0);
@@ -52,6 +55,7 @@ namespace CotizacionesPersonalesApi
                 options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
             });
 
+            services.AddSwaggerDocument();
 
             services.AddCors(options =>
             {
