@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using NSwag.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using CotizacionesPersonalesApi.Filters;
+using CotizacionesPersonalesApi.Models;
 
 namespace CotizacionesPersonalesApi
 {
@@ -28,6 +29,10 @@ namespace CotizacionesPersonalesApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ClienteInfo>(
+                Configuration.GetSection("Info")
+                );
+
             services
                 .AddMvc(options => 
                 {
@@ -46,7 +51,12 @@ namespace CotizacionesPersonalesApi
                 options.ReportApiVersions = true;
                 options.ApiVersionSelector = new CurrentImplementationApiVersionSelector(options);
             });
-            
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyApp", policy => policy.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,6 +77,7 @@ namespace CotizacionesPersonalesApi
                 app.UseHsts();
             }
 
+            app.UseCors("AllowMyApp");
             //app.UseHttpsRedirection();
             app.UseMvc();
         }
