@@ -15,6 +15,9 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using CotizacionesPersonalesApi.Filters;
 using CotizacionesPersonalesApi.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using CotizacionesPersonalesApi.AutoMapper;
+using CotizacionesPersonalesApi.Services;
 
 namespace CotizacionesPersonalesApi
 {
@@ -31,6 +34,7 @@ namespace CotizacionesPersonalesApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ClienteInfo>( Configuration.GetSection("Info"));
+            services.AddScoped<IClienteService, DefaultClienteService>();
 
             // use in-memory  database for quik dev and testing 
             // TODO: Swap out for real database in production 
@@ -61,6 +65,9 @@ namespace CotizacionesPersonalesApi
             {
                 options.AddPolicy("AllowMyApp", policy => policy.AllowAnyOrigin());
             });
+
+            services.AddAutoMapper(options => options.AddProfile<MappingProfile>());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

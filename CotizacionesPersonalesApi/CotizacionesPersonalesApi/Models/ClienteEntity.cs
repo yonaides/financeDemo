@@ -13,6 +13,5 @@ namespace CotizacionesPersonalesApi.Models
         public string TelefonoCliente { get; set; }
         public string EmailCliente { get; set; }
 
-
     }
 }

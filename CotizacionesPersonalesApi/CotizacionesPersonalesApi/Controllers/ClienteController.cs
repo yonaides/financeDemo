@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CotizacionesPersonalesApi.Models;
 using Microsoft.EntityFrameworkCore;
+using CotizacionesPersonalesApi.Services;
 
 namespace CotizacionesPersonalesApi.Controllers
 {
@@ -12,11 +13,12 @@ namespace CotizacionesPersonalesApi.Controllers
     [ApiController]
     public class ClienteController : ControllerBase
     {
-        private readonly CotizacionesPersonalesApiDbContext _context;
+        //private readonly CotizacionesPersonalesApiDbContext _context;
+        private readonly IClienteService _clienteService;
 
-        public ClienteController(CotizacionesPersonalesApiDbContext context)
+        public ClienteController(IClienteService clienteService)
         {
-            _context = context;
+            _clienteService = clienteService;
         }
 
         [HttpGet(Name = nameof(GetClientes))]
@@ -27,25 +29,18 @@ namespace CotizacionesPersonalesApi.Controllers
 
         //Get /cliente/{clienteId}
         [HttpGet("{clienteId}", Name = nameof(GetClienteById))]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200)]
         public async Task<ActionResult<Cliente>> GetClienteById(int clienteId)
         {
-            var entity = await _context.Clientes.SingleOrDefaultAsync(x => x.Id == clienteId);
+            var cliente = await _clienteService.GetClienteAsync(clienteId);
 
-            if (entity == null)
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            var resource = new Cliente
-            {
-                Href = Url.Link(nameof(GetClienteById), new { clienteId = entity.Id }),
-                Direccion = entity.DireccionCliente,
-                Nombre = entity.NombreCliente,
-                Email = entity.EmailCliente,
-                Telefono = entity.TelefonoCliente
-            };
-
-            return resource;
+            return cliente;
 
         }
 
