@@ -34,27 +34,27 @@ namespace CotizacionesPersonalesApi
             {
                 Id = 2,
                 NombreCliente = "Yonaides Antonio",
-                DireccionCliente = "En el apto",
-                TelefonoCliente = "874-985-9654",
-                EmailCliente = "yonaides@gmail.com"
+                DireccionCliente = "en su casa",
+                TelefonoCliente = "874-985-7777",
+                EmailCliente = "shulterbrond@gmail.com"
             });
 
             context.Clientes.Add(new ClienteEntity
             {
                 Id = 3,
                 NombreCliente = "Yonaides ShulterBrondt",
-                DireccionCliente = "En el apto",
-                TelefonoCliente = "874-985-9654",
-                EmailCliente = "yonaides@gmail.com"
+                DireccionCliente = "casa de la abuela",
+                TelefonoCliente = "874-985-6666",
+                EmailCliente = "antonio@gmail.com"
             });
 
             context.Clientes.Add(new ClienteEntity
             {
                 Id = 4,
                 NombreCliente = "Julie Pichardo",
-                DireccionCliente = "En el apto",
-                TelefonoCliente = "874-985-9654",
-                EmailCliente = "yonaides@gmail.com"
+                DireccionCliente = "casa de su madre",
+                TelefonoCliente = "874-985-9999",
+                EmailCliente = "julie@gmail.com"
             });
 
             await context.SaveChangesAsync();

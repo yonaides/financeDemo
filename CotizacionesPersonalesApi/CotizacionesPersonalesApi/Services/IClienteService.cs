@@ -8,6 +8,8 @@ namespace CotizacionesPersonalesApi.Services
 {
     public interface IClienteService
     {
+        Task<IEnumerable<Cliente>> GetClientesAsync();
+
         Task<Cliente> GetClienteAsync(int clienteId);
     }
 }

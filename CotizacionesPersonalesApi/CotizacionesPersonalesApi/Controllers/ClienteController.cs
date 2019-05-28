@@ -21,10 +21,20 @@ namespace CotizacionesPersonalesApi.Controllers
             _clienteService = clienteService;
         }
 
-        [HttpGet(Name = nameof(GetClientes))]
-        public IActionResult GetClientes()
+        [HttpGet(Name = nameof(GetAllClientes))]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<Collection<Cliente>>> GetAllClientes()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            var clientes = await _clienteService.GetClientesAsync();
+            var collections = new Collection<Cliente>
+            {
+                Self = Link.ToCollection(nameof(GetAllClientes)),
+                Value = clientes.ToArray()
+
+            };
+            return collections;
+
         }
 
         //Get /cliente/{clienteId}

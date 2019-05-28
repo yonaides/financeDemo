@@ -45,6 +45,7 @@ namespace CotizacionesPersonalesApi
                 {
                     options.Filters.Add<JsonExceptionFilter>();
                     options.Filters.Add<RequireHttpsOrCloseAttr>();
+                    options.Filters.Add<LinkRewritingFilter>();
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 

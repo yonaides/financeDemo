@@ -1,15 +1,14 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace CotizacionesPersonalesApi.Models
 {
-    public abstract class Resource : Link
+    public class RootResponse : Resource
     {
-        [JsonIgnore]
-        public Link Self { get; set; }
+        public Link Info { get; set; }
 
+        public Link Clientes { get; set; }
     }
 }

@@ -5,20 +5,22 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CotizacionesPersonalesApi.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper.QueryableExtensions;
 
 namespace CotizacionesPersonalesApi.Services
 {
     public class DefaultClienteService : IClienteService
     {
         private readonly CotizacionesPersonalesApiDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly IConfigurationProvider _mappingConfiguration;
+
 
         public DefaultClienteService(
             CotizacionesPersonalesApiDbContext context,
-            IMapper mapper)
+            IConfigurationProvider mappingConfiguration)
         {
             _context = context;
-            _mapper = mapper;
+            _mappingConfiguration = mappingConfiguration;
         }
 
         public async Task<Cliente> GetClienteAsync(int clienteId)
@@ -30,8 +32,15 @@ namespace CotizacionesPersonalesApi.Services
             {
                 return null;
             }
+            var mapper = _mappingConfiguration.CreateMapper();
+            return mapper.Map<Cliente>(entity);
+        }
 
-            return _mapper.Map<Cliente>(entity);
+        public async Task<IEnumerable<Cliente>> GetClientesAsync()
+        {
+            var query = _context.Clientes.ProjectTo<Cliente>(_mappingConfiguration);
+            return await query.ToArrayAsync();
+
         }
     }
 }

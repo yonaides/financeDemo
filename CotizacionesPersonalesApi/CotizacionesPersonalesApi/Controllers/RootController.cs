@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CotizacionesPersonalesApi.Models;
 
 namespace CotizacionesPersonalesApi.Controllers
 {
@@ -15,18 +16,11 @@ namespace CotizacionesPersonalesApi.Controllers
         [ProducesResponseType(200)]
         public IActionResult GetRoot()
         {
-            var response = new
+            var response = new RootResponse
             {
-                href = Url.Link(nameof(GetRoot), null),
-                rooms = new
-                {
-                    href = Url.Link(nameof(ClienteController.GetClientes), null)
-                },
-                info = new
-                {
-                    href = Url.Link(nameof(InfoController.GetInfo), null)
-                }
-
+                Self = Link.To(nameof(GetRoot)),
+                Clientes = Link.ToCollection(nameof(ClienteController.GetAllClientes)), 
+                Info = Link.To(nameof(InfoController.GetInfo))
             };
 
             return Ok(response);
