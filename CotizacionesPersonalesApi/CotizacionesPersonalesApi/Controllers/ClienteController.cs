@@ -13,7 +13,6 @@ namespace CotizacionesPersonalesApi.Controllers
     [ApiController]
     public class ClienteController : ControllerBase
     {
-        //private readonly CotizacionesPersonalesApiDbContext _context;
         private readonly IClienteService _clienteService;
 
         public ClienteController(IClienteService clienteService)
@@ -53,6 +52,5 @@ namespace CotizacionesPersonalesApi.Controllers
             return cliente;
 
         }
-
     }
 }

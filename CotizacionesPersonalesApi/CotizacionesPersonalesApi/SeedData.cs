@@ -58,6 +58,69 @@ namespace CotizacionesPersonalesApi
             });
 
 
+            var servicio1 = context.Servicios.Add(new ServicioEntity
+            {
+                ServicioId = 1,
+                NombreServicio = "Creacion Logo comercial",
+                PrecioServicio = 352f,
+
+            }).Entity;
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                Id = 1,
+                ServicioId = servicio1,
+                Descripcion = "descripcion logo comercial 1 "
+
+            });
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                Id = 2,
+                ServicioId = servicio1,
+                Descripcion = "descripcion logo comercial 1 "
+
+            });
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                Id = 3,
+                ServicioId = servicio1,
+                Descripcion = "descripcion logo comercial 1 "
+
+            });
+
+            var servicio2 = context.Servicios.Add(new ServicioEntity
+            {
+                ServicioId = 2,
+                NombreServicio = "Creacion Logo empresarial",
+                PrecioServicio = 352f,
+
+            }).Entity;
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                Id = 4,
+                ServicioId = servicio2,
+                Descripcion = "descripcion Logo empresarial 2 "
+
+            });
+
+            var servicio3 = context.Servicios.Add(new ServicioEntity
+            {
+                ServicioId = 3,
+                NombreServicio = "Creacion Logo personal",
+                PrecioServicio = 352f,
+
+            }).Entity;
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                Id = 4,
+                ServicioId = servicio3,
+                Descripcion = "descripcion Logo personal 3 "
+
+            });
 
 
             await context.SaveChangesAsync();

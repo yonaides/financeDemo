@@ -5,24 +5,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 
 namespace CotizacionesPersonalesApi.Services
 {
     public class DefaultServicioService : IServicioService
     {
         private readonly CotizacionesPersonalesApiDbContext _context;
-        private readonly IMapper _mapper;
+        private readonly IConfigurationProvider _mappingConfiguration;
 
         public DefaultServicioService(
             CotizacionesPersonalesApiDbContext context,
-            IMapper mapper)
+            IConfigurationProvider mappingConfiguration)
         {
             _context = context;
-            _mapper = mapper;
+            _mappingConfiguration = mappingConfiguration;
         }
 
         public Task<int> CreateServicioAsync(
-            int userId,
+            int id,
             string NombreServicio,
             float PrecioServicio)
         {
@@ -32,13 +33,20 @@ namespace CotizacionesPersonalesApi.Services
 
         public async Task<Servicio> GetServicioAsync(int servicioId)
         {
-            var entity = await _context.Servicio
-                .SingleOrDefaultAsync(b => b.Id == servicioId);
+            var entity = await _context.Servicios.Include(d => d.DetalleServiciosId)
+                .SingleOrDefaultAsync(b => b.ServicioId == servicioId);
 
             if (entity == null) return null;
 
-            return _mapper.Map<Servicio>(entity);
+            var mapper = _mappingConfiguration.CreateMapper();
+            return mapper.Map<Servicio>(entity);
+
         }
 
+        public async Task<IEnumerable<Servicio>> GetServicioAsync()
+        {
+            var query = _context.Servicios.Include(de => de.DetalleServiciosId).ProjectTo<Servicio>(_mappingConfiguration);
+            return await query.ToArrayAsync();
+        }
     }
 }

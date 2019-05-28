@@ -8,7 +8,9 @@ namespace CotizacionesPersonalesApi.Models
     public class ServicioEntity
     {
         public int ServicioId { get; set; }
+        public ICollection<DetalleServicioEntity> DetalleServiciosId { get; set; }
         public string NombreServicio { get; set; }
         public float PrecioServicio { get; set; }
+        
     }
 }

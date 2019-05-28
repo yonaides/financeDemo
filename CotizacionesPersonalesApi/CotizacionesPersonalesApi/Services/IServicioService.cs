@@ -8,12 +8,14 @@ namespace CotizacionesPersonalesApi.Services
 {
     public interface IServicioService
     {
+        Task<IEnumerable<Servicio>> GetServicioAsync();
+        
         Task<Servicio> GetServicioAsync(int servicioId);
 
         Task<int> CreateServicioAsync(
             int servicioId,
-            string NombreServicio ,
-            float PrecioServicio );
+            string nombreServicio ,
+            float precioServicio );
     }
 
 }

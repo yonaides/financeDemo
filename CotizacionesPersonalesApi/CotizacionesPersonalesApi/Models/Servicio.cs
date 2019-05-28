@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CotizacionesPersonalesApi.Models
 {
-    public class Servicio
+    public class Servicio : Resource
     {
         public int Id { get; set; }
         public string Nombre { get; set; }

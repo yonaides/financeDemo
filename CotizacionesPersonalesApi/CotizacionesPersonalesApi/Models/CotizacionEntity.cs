@@ -9,9 +9,10 @@ namespace CotizacionesPersonalesApi.Models
     {
         public int CotizacionId { get; set; }
         public Cliente ClienteId { get; set; }
-        public ICollection<CotizacionDetalleEntity> Detalle { get; set; }
-        public float montoTotal { get; set; }
-        public int serviciosTotal { get; set; }
+        public ICollection<CotizacionDetalleEntity> DetalleCotizacionId { get; set; }
+        public DateTime FechaCotizacion { get; set; }
+        public float MontoTotal { get; set; }
+        public int ServiciosTotal { get; set; }
 
     }
 }

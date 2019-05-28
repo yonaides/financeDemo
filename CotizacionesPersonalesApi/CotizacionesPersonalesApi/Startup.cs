@@ -34,7 +34,9 @@ namespace CotizacionesPersonalesApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ClienteInfo>( Configuration.GetSection("Info"));
+
             services.AddScoped<IClienteService, DefaultClienteService>();
+            services.AddScoped<IServicioService, DefaultServicioService>();
 
             // use in-memory  database for quik dev and testing 
             // TODO: Swap out for real database in production 

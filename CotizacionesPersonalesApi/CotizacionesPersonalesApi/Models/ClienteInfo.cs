@@ -16,5 +16,4 @@ namespace CotizacionesPersonalesApi.Models
     }
 
 
-
 }

@@ -16,8 +16,8 @@ namespace CotizacionesPersonalesApi
         public DbSet<ClienteEntity> Clientes { get; set; }
         public DbSet<ServicioEntity> Servicios { get; set; }
         public DbSet<DetalleServicioEntity> DetalleServicios { get; set; }
-        public DbSet<CotizacionEntity> Cotizacion { get; set; }
-        public DbSet<CotizacionDetalleEntity> CotizacionDetalle { get; set; }
+        public DbSet<CotizacionEntity> Cotizaciones { get; set; }
+        public DbSet<CotizacionDetalleEntity> CotizacionesDetalles { get; set; }
 
 
     }
