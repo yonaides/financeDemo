@@ -37,6 +37,7 @@ namespace CotizacionesPersonalesApi
 
             services.AddScoped<IClienteService, DefaultClienteService>();
             services.AddScoped<IServicioService, DefaultServicioService>();
+            services.AddScoped<IDetalleServicioService, DefaultDetalleServicioService>();
 
             // use in-memory  database for quik dev and testing 
             // TODO: Swap out for real database in production 

@@ -7,7 +7,7 @@ namespace CotizacionesPersonalesApi.Models
 {
     public class ClienteInfo : Resource
     {
-        public long ID { get; set; }
+        public int Id { get; set; }
         public string NombreCliente { get; set; }
         public string DireccionCliente { get; set; }
         public string TelefonoCliente { get; set; }

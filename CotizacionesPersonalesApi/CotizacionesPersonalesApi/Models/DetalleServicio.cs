@@ -7,8 +7,8 @@ namespace CotizacionesPersonalesApi.Models
 {
     public class DetalleServicio: Resource
     {
-        public int DetalleId { get; set; }
-        public ServicioEntity ServicioId { get; set; }
+        public int DetalleServicioId { get; set; }
+        public int ServicioEntityFK { get; set; }
         public string Descripcion { get; set; }
 
     }

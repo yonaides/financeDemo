@@ -23,7 +23,7 @@ namespace CotizacionesPersonalesApi
 
             context.Clientes.Add(new ClienteEntity
             {
-                Id = 1,
+                ClienteId = 1,
                 NombreCliente = "Yonaides Tavares",
                 DireccionCliente = "En el apto",
                 TelefonoCliente = "874-985-9654",
@@ -32,7 +32,7 @@ namespace CotizacionesPersonalesApi
 
             context.Clientes.Add(new ClienteEntity
             {
-                Id = 2,
+                ClienteId = 2,
                 NombreCliente = "Yonaides Antonio",
                 DireccionCliente = "en su casa",
                 TelefonoCliente = "874-985-7777",
@@ -41,7 +41,7 @@ namespace CotizacionesPersonalesApi
 
             context.Clientes.Add(new ClienteEntity
             {
-                Id = 3,
+                ClienteId = 3,
                 NombreCliente = "Yonaides ShulterBrondt",
                 DireccionCliente = "casa de la abuela",
                 TelefonoCliente = "874-985-6666",
@@ -50,7 +50,7 @@ namespace CotizacionesPersonalesApi
 
             context.Clientes.Add(new ClienteEntity
             {
-                Id = 4,
+                ClienteId = 4,
                 NombreCliente = "Julie Pichardo",
                 DireccionCliente = "casa de su madre",
                 TelefonoCliente = "874-985-9999",
@@ -62,30 +62,33 @@ namespace CotizacionesPersonalesApi
             {
                 ServicioId = 1,
                 NombreServicio = "Creacion Logo comercial",
-                PrecioServicio = 352f,
+                PrecioServicio = 500,
 
             }).Entity;
 
             context.DetalleServicios.Add(new DetalleServicioEntity
             {
-                Id = 1,
-                ServicioId = servicio1,
+                DetalleServicioId = 1,
+                ServicioEntity = servicio1,
+                ServicioEntityFK = servicio1.ServicioId,
                 Descripcion = "descripcion logo comercial 1 "
 
             });
 
             context.DetalleServicios.Add(new DetalleServicioEntity
             {
-                Id = 2,
-                ServicioId = servicio1,
+                DetalleServicioId = 2,
+                ServicioEntity = servicio1,
+                ServicioEntityFK = servicio1.ServicioId,
                 Descripcion = "descripcion logo comercial 1 "
 
             });
 
             context.DetalleServicios.Add(new DetalleServicioEntity
             {
-                Id = 3,
-                ServicioId = servicio1,
+                DetalleServicioId = 3,
+                ServicioEntity = servicio1,
+                ServicioEntityFK = servicio1.ServicioId,
                 Descripcion = "descripcion logo comercial 1 "
 
             });
@@ -94,14 +97,15 @@ namespace CotizacionesPersonalesApi
             {
                 ServicioId = 2,
                 NombreServicio = "Creacion Logo empresarial",
-                PrecioServicio = 352f,
+                PrecioServicio = 400,
 
             }).Entity;
 
             context.DetalleServicios.Add(new DetalleServicioEntity
             {
-                Id = 4,
-                ServicioId = servicio2,
+                DetalleServicioId = 4,
+                ServicioEntity = servicio2,
+                ServicioEntityFK = servicio2.ServicioId,
                 Descripcion = "descripcion Logo empresarial 2 "
 
             });
@@ -110,14 +114,15 @@ namespace CotizacionesPersonalesApi
             {
                 ServicioId = 3,
                 NombreServicio = "Creacion Logo personal",
-                PrecioServicio = 352f,
+                PrecioServicio = 300f,
 
             }).Entity;
 
             context.DetalleServicios.Add(new DetalleServicioEntity
             {
-                Id = 4,
-                ServicioId = servicio3,
+                DetalleServicioId = 5,
+                ServicioEntity = servicio3,
+                ServicioEntityFK = servicio3.ServicioId,
                 Descripcion = "descripcion Logo personal 3 "
 
             });

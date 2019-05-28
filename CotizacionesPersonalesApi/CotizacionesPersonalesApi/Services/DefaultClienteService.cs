@@ -26,7 +26,7 @@ namespace CotizacionesPersonalesApi.Services
         public async Task<Cliente> GetClienteAsync(int clienteId)
         {
             var entity = await _context.Clientes
-                .SingleOrDefaultAsync(x => x.Id == clienteId);
+                .SingleOrDefaultAsync(x => x.ClienteId == clienteId);
 
             if (entity == null)
             {
