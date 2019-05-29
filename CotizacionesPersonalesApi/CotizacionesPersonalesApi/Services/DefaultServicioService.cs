@@ -43,10 +43,27 @@ namespace CotizacionesPersonalesApi.Services
 
         }
 
-        public async Task<IEnumerable<Servicio>> GetServicioAsync()
+        /*public async Task<IEnumerable<Servicio>> GetServicioAsync()
         {
             var query = _context.Servicios.ProjectTo<Servicio>(_mappingConfiguration);
             return await query.ToArrayAsync();
+        }*/
+
+
+        public async Task<PagedResults<Servicio>> GetServicioAsync(PagingOptions pagingOptions)
+        {
+            var query = _context.Servicios.ProjectTo<Servicio>(_mappingConfiguration);
+            var listado = await query.ToArrayAsync();
+            var listadoServicios = listado.ToList();
+
+            var filtro = listadoServicios
+                .Skip(pagingOptions.Offset.Value)
+                .Take(pagingOptions.Limit.Value);
+
+            return new PagedResults<Servicio> { 
+                Items = filtro,
+                TotalSize = listadoServicios.Count
+             };
         }
     }
 }

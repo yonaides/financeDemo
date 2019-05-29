@@ -8,7 +8,9 @@ namespace CotizacionesPersonalesApi.Services
 {
     public interface IServicioService
     {
-        Task<IEnumerable<Servicio>> GetServicioAsync();
+        //Task<PagedResults<Servicio>> GetServicioAsync();
+
+        Task<PagedResults<Servicio>> GetServicioAsync(PagingOptions pagingOptions);
         
         Task<Servicio> GetServicioAsync(int servicioId);
 
