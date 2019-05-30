@@ -127,6 +127,60 @@ namespace CotizacionesPersonalesApi
 
             });
 
+            var servicio4 = context.Servicios.Add(new ServicioEntity
+            {
+                ServicioId = 4,
+                NombreServicio = "Creacion Logo poloche delante",
+                PrecioServicio = 33f,
+
+            }).Entity;
+
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                DetalleServicioId = 6,
+                ServicioEntity = servicio4,
+                ServicioEntityFK = servicio4.ServicioId,
+                Descripcion = "descripcion Logo poloche delante"
+
+            });
+
+            var servicio5 = context.Servicios.Add(new ServicioEntity
+            {
+                ServicioId = 5,
+                NombreServicio = "Creacion Logo poloche detras",
+                PrecioServicio = 25f,
+
+            }).Entity;
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                DetalleServicioId = 7,
+                ServicioEntity = servicio5,
+                ServicioEntityFK = servicio5.ServicioId,
+                Descripcion = "descripcion Logo poloche detras"
+
+            });
+
+
+            var servicio6 = context.Servicios.Add(new ServicioEntity
+            {
+                ServicioId = 6,
+                NombreServicio = "Creacion Logo camisa",
+                PrecioServicio = 50f,
+
+            }).Entity;
+
+            context.DetalleServicios.Add(new DetalleServicioEntity
+            {
+                DetalleServicioId = 8,
+                ServicioEntity = servicio6,
+                ServicioEntityFK = servicio6.ServicioId,
+                Descripcion = "descripcion Logo camisa"
+
+            });
+
+
 
             await context.SaveChangesAsync();
 

@@ -34,6 +34,7 @@ namespace CotizacionesPersonalesApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ClienteInfo>( Configuration.GetSection("Info"));
+            services.Configure<PagingOptions>(Configuration.GetSection("DefaultPagingOptions"));
 
             services.AddScoped<IClienteService, DefaultClienteService>();
             services.AddScoped<IServicioService, DefaultServicioService>();
@@ -72,6 +73,15 @@ namespace CotizacionesPersonalesApi
 
             services.AddAutoMapper(options => options.AddProfile<MappingProfile>());
 
+
+            services.Configure<ApiBehaviorOptions>(options => 
+            {
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var errorResponse = new ApiError(context.ModelState);
+                    return new BadRequestObjectResult(errorResponse);
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

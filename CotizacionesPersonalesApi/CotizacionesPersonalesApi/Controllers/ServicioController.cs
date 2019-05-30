@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CotizacionesPersonalesApi.Services;
 using CotizacionesPersonalesApi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace CotizacionesPersonalesApi.Controllers
 {
@@ -13,29 +14,43 @@ namespace CotizacionesPersonalesApi.Controllers
     public class ServicioController : ControllerBase
     {
         private readonly IServicioService _servicioService;
+        private readonly PagingOptions _defaulPaginPaginOption;
 
-        public ServicioController(IServicioService servicioService)
+        public ServicioController(IServicioService servicioService, IOptions<PagingOptions> defaultPageOptionWrapper )
         {
             _servicioService = servicioService;
+            _defaulPaginPaginOption = defaultPageOptionWrapper.Value ;
         }
 
         [HttpGet(Name = nameof(GetAllServicios))]
-        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]        
         public async Task<ActionResult<Collection<Servicio>>> GetAllServicios( [FromQuery] PagingOptions pagingOptions = null )
         {
-            if (pagingOptions.Limit == null) pagingOptions.Limit = 100;
-            if (pagingOptions.Offset == null) pagingOptions.Offset = 0;
+            //if (!ModelState.IsValid) return BadRequest;
+            
+            pagingOptions.Offset = pagingOptions.Offset ?? _defaulPaginPaginOption.Offset;
+            pagingOptions.Limit = pagingOptions.Limit ?? _defaulPaginPaginOption.Limit;
+
+            /*if (pagingOptions.Limit == null) pagingOptions.Limit = 100;
+            if (pagingOptions.Offset == null) pagingOptions.Offset = 0;*/
 
             var servicio = await _servicioService.GetServicioAsync(pagingOptions);
-            var collections = new PagedCollection<Servicio>
-            {
+            var collections = PagedCollection<Servicio>.Create(
+                Link.ToCollection(nameof(GetAllServicios)),
+                servicio.Items.ToArray(),
+                servicio.TotalSize,
+                pagingOptions
+                );
+
+            /*{
                 Self = Link.ToCollection(nameof(GetAllServicios)),
                 Value = servicio.Items.ToArray(),
                 Size = servicio.TotalSize,
                 Offset = pagingOptions.Offset.Value,
                 Limit = pagingOptions.Limit.Value
 
-            };
+            };*/
             return collections;
 
         }
@@ -58,8 +73,6 @@ namespace CotizacionesPersonalesApi.Controllers
             return collections;
 
         }*/
-
-
 
         //Get /servicio/{servicioId}
         [HttpGet("{servicioId}", Name = nameof(GetServicioById))]
