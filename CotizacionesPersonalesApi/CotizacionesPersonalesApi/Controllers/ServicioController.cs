@@ -25,7 +25,9 @@ namespace CotizacionesPersonalesApi.Controllers
         [HttpGet(Name = nameof(GetAllServicios))]
         [ProducesResponseType(400)]
         [ProducesResponseType(200)]        
-        public async Task<ActionResult<Collection<Servicio>>> GetAllServicios( [FromQuery] PagingOptions pagingOptions = null )
+        public async Task<ActionResult<Collection<Servicio>>> GetAllServicios( [FromQuery] PagingOptions pagingOptions, 
+                [FromQuery] SortOptions<Servicio, ServicioEntity> sortOptions, 
+                [FromQuery] SearchOptions<Servicio, ServicioEntity> searchOptions)
         {
             //if (!ModelState.IsValid) return BadRequest;
             
@@ -35,7 +37,7 @@ namespace CotizacionesPersonalesApi.Controllers
             /*if (pagingOptions.Limit == null) pagingOptions.Limit = 100;
             if (pagingOptions.Offset == null) pagingOptions.Offset = 0;*/
 
-            var servicio = await _servicioService.GetServicioAsync(pagingOptions);
+            var servicio = await _servicioService.GetServicioAsync(pagingOptions, sortOptions, searchOptions);
             var collections = PagedCollection<Servicio>.Create(
                 Link.ToCollection(nameof(GetAllServicios)),
                 servicio.Items.ToArray(),

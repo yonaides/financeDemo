@@ -10,14 +10,16 @@ namespace CotizacionesPersonalesApi.Services
     {
         //Task<PagedResults<Servicio>> GetServicioAsync();
 
-        Task<PagedResults<Servicio>> GetServicioAsync(PagingOptions pagingOptions);
+        Task<PagedResults<Servicio>> GetServicioAsync(PagingOptions pagingOptions,
+            SortOptions<Servicio, ServicioEntity> sortOptions,
+            SearchOptions<Servicio, ServicioEntity> searchOptions);
         
         Task<Servicio> GetServicioAsync(int servicioId);
 
         Task<int> CreateServicioAsync(
             int servicioId,
             string nombreServicio ,
-            float precioServicio );
+            int precioServicio );
     }
 
 }

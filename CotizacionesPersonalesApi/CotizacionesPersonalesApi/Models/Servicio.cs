@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CotizacionesPersonalesApi.AutoMapper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +12,13 @@ namespace CotizacionesPersonalesApi.Models
         public int ServicioId { get; set; }
         [JsonIgnore]
         public virtual ICollection<DetalleServicio> DetalleServicio { get; set; }
-        public string Nombre { get; set; }
-        public float Precio { get; set; }
+        [Sortable(Default = true)]
+        [Searchable]
+        public string NombreServicio { get; set; }
+
+        [Sortable]
+        [SearchableDecimal]
+        public int PrecioServicio { get; set; }
 
     }
 }

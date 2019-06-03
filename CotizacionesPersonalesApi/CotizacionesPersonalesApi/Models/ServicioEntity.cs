@@ -12,7 +12,7 @@ namespace CotizacionesPersonalesApi.Models
         public int ServicioId { get; set; }
         public virtual ICollection<DetalleServicioEntity> DetalleServiciosEntity { get; set; }
         public string NombreServicio { get; set; }
-        public float PrecioServicio { get; set; }
+        public int PrecioServicio { get; set; }
 
     }
 }

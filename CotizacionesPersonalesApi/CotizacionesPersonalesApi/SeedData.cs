@@ -114,7 +114,7 @@ namespace CotizacionesPersonalesApi
             {
                 ServicioId = 3,
                 NombreServicio = "Creacion Logo personal",
-                PrecioServicio = 300f,
+                PrecioServicio = 300,
 
             }).Entity;
 
@@ -131,7 +131,7 @@ namespace CotizacionesPersonalesApi
             {
                 ServicioId = 4,
                 NombreServicio = "Creacion Logo poloche delante",
-                PrecioServicio = 33f,
+                PrecioServicio = 33,
 
             }).Entity;
 
@@ -149,7 +149,7 @@ namespace CotizacionesPersonalesApi
             {
                 ServicioId = 5,
                 NombreServicio = "Creacion Logo poloche detras",
-                PrecioServicio = 25f,
+                PrecioServicio = 25,
 
             }).Entity;
 
@@ -167,7 +167,7 @@ namespace CotizacionesPersonalesApi
             {
                 ServicioId = 6,
                 NombreServicio = "Creacion Logo camisa",
-                PrecioServicio = 50f,
+                PrecioServicio = 50,
 
             }).Entity;
 
@@ -179,8 +179,6 @@ namespace CotizacionesPersonalesApi
                 Descripcion = "descripcion Logo camisa"
 
             });
-
-
 
             await context.SaveChangesAsync();
 
