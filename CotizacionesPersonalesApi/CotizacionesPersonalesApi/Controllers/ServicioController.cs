@@ -6,6 +6,7 @@ using CotizacionesPersonalesApi.Services;
 using CotizacionesPersonalesApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using CotizacionesPersonalesApi.AutoMapper;
 
 namespace CotizacionesPersonalesApi.Controllers
 {
@@ -24,13 +25,16 @@ namespace CotizacionesPersonalesApi.Controllers
 
         [HttpGet(Name = nameof(GetAllServicios))]
         [ProducesResponseType(400)]
-        [ProducesResponseType(200)]        
+        [ProducesResponseType(200)]
+        [ResponseCache(Duration = 30,
+            VaryByQueryKeys = new[] { "offset", "limit", "orderBy", "search" })]
         public async Task<ActionResult<Collection<Servicio>>> GetAllServicios( [FromQuery] PagingOptions pagingOptions, 
                 [FromQuery] SortOptions<Servicio, ServicioEntity> sortOptions, 
                 [FromQuery] SearchOptions<Servicio, ServicioEntity> searchOptions)
         {
-            //if (!ModelState.IsValid) return BadRequest;
-            
+
+            await Task.Delay(3000); // utilizar en caso de procesos que tomen mucho tiempo
+
             pagingOptions.Offset = pagingOptions.Offset ?? _defaulPaginPaginOption.Offset;
             pagingOptions.Limit = pagingOptions.Limit ?? _defaulPaginPaginOption.Limit;
 
@@ -38,43 +42,26 @@ namespace CotizacionesPersonalesApi.Controllers
             if (pagingOptions.Offset == null) pagingOptions.Offset = 0;*/
 
             var servicio = await _servicioService.GetServicioAsync(pagingOptions, sortOptions, searchOptions);
-            var collections = PagedCollection<Servicio>.Create(
+            var collections = PagedCollection<Servicio>.Create<ServicioResponse>(
                 Link.ToCollection(nameof(GetAllServicios)),
                 servicio.Items.ToArray(),
                 servicio.TotalSize,
                 pagingOptions
                 );
+            
 
-            /*{
-                Self = Link.ToCollection(nameof(GetAllServicios)),
-                Value = servicio.Items.ToArray(),
-                Size = servicio.TotalSize,
-                Offset = pagingOptions.Offset.Value,
-                Limit = pagingOptions.Limit.Value
+            collections.ServicioQuery = FormMetadata.FromResource<Servicio>(
+                Link.ToForm(
+                    nameof(GetAllServicios),
+                    null,
+                    Link.GetMethod,
+                    Form.QueryRelation));
 
-            };*/
+
             return collections;
 
         }
 
-
-        /*[HttpGet(Name = nameof(GetAllServicios))]
-        [ProducesResponseType(200)]
-        public async Task<ActionResult<Collection<Servicio>>> GetAllServicios()
-        {
-            var servicio = await _servicioService.GetServicioAsync();
-            var collections = new PagedCollection<Servicio>
-            {
-                Self = Link.ToCollection(nameof(GetAllServicios)),
-                Value = servicio.Items.ToArray(),
-                Size = servicio.TotalSize,
-                Offset = pagingOptions.Offset.Value,
-                Limit = pagingOptions.Limit.Value
-
-            };
-            return collections;
-
-        }*/
 
         //Get /servicio/{servicioId}
         [HttpGet("{servicioId}", Name = nameof(GetServicioById))]
@@ -93,6 +80,26 @@ namespace CotizacionesPersonalesApi.Controllers
 
         }
 
+        // TODO authentication!
+        // POST /servicio/crear
+        [HttpPost("crear", Name = nameof(CreateServicio))]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(201)]
+        public async Task<ActionResult> CreateServicio([FromBody] ServicioForm servicioForm)
+        {
+            
+            var servicioId = await _servicioService.CreateServicioAsync(
+                servicioForm.NombreServicio, servicioForm.PrecioServicio);
 
+            return Created(
+                Url.Link(nameof(ServicioController.GetServicioById),new { servicioId }), null);
+
+            /*
+            return Created(
+                Url.Link(nameof(BookingsController.GetBookingById),
+                new { bookingId }),
+                null);*/
+        }
     }
-}
+ }

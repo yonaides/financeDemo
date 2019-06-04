@@ -22,13 +22,18 @@ namespace CotizacionesPersonalesApi.Services
             _mappingConfiguration = mappingConfiguration;
         }
 
-        public Task<int> CreateServicioAsync(
-            int id,
-            string NombreServicio,
-            int PrecioServicio)
+        public async Task<int> CreateServicioAsync(string nombre, int precio)
         {
-            // TODO: Save the new booking to the database
-            throw new NotImplementedException();
+            var newServicio = _context.Servicios.Add(new ServicioEntity
+            {
+                NombreServicio = nombre,
+                PrecioServicio = precio
+            });
+
+            var createAt = await _context.SaveChangesAsync();
+            if (createAt < 1) throw new InvalidOperationException("Datos no pudieron ser salvados");
+
+            return newServicio.Entity.ServicioId;
         }
 
         public async Task<Servicio> GetServicioAsync(int servicioId)

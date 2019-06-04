@@ -24,6 +24,15 @@ namespace CotizacionesPersonalesApi.AutoMapper
                 .ForMember(dest => dest.ServicioId, opt => opt.MapFrom(src => src.ServicioId))
                 .ForMember(dest => dest.NombreServicio, opt => opt.MapFrom(src => src.NombreServicio))
                 .ForMember(dest => dest.PrecioServicio, opt => opt.MapFrom(src => src.PrecioServicio))
+                .ForMember(dest => dest.ServicioMetaData, opt => opt.MapFrom(src => 
+                FormMetadata.FromModel(
+                    new ServicioForm(), Link.ToForm(
+                    nameof(Controllers.ServicioController.CreateServicio),
+                            new { servicioId = src.ServicioId },
+                            Link.PostMethod,
+                            Form.CreateRelation
+                    ))))
+
                 .ForMember(dest => dest.DetalleServicio, opt => opt.MapFrom(src => src.DetalleServiciosEntity))
                 .ForMember(dest => dest.Self, opt => opt.MapFrom(src => Link.To(nameof(Controllers.ServicioController.GetServicioById),
               new { servicioId = src.ServicioId })));

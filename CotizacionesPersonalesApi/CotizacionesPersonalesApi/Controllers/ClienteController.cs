@@ -52,5 +52,16 @@ namespace CotizacionesPersonalesApi.Controllers
             return cliente;
 
         }
+
+        // DELETE /cliente/{clienteId}
+        [HttpDelete("{clienteId}", Name = nameof(DeleteClienteById))]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> DeleteClienteById(int clienteId)
+        {
+            // TODO: Authorize that the user is allowed to do this!
+            await _clienteService.DeleteClienteAsync (clienteId);
+            return NoContent();
+        }
+
     }
 }

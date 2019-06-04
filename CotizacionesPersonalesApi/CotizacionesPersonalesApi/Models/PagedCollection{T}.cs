@@ -11,8 +11,7 @@ namespace CotizacionesPersonalesApi.Models
 {
     public class PagedCollection<T> : Collection<T>
     {
-        public static PagedCollection<T> Create(Link self, T[] items, int size, PagingOptions pagingOptions)
-        => new PagedCollection<T>
+        public static PagedCollection<T> Create(Link self, T[] items, int size, PagingOptions pagingOptions) => new PagedCollection<T>
         {
             Self = self,
             Value = items,
@@ -25,6 +24,22 @@ namespace CotizacionesPersonalesApi.Models
             Last = GetLastLink(self, size, pagingOptions)
 
         };
+
+        public static TResponse Create<TResponse>(
+           Link self, T[] items, int size, PagingOptions pagingOptions)
+           where TResponse : PagedCollection<T>, new()
+           => new TResponse
+           {
+               Self = self,
+               Value = items,
+               Size = size,
+               Offset = pagingOptions.Offset,
+               Limit = pagingOptions.Limit,
+               First = self,
+               Next = GetNextLink(self, size, pagingOptions),
+               Previous = GetPreviousLink(self, size, pagingOptions),
+               Last = GetLastLink(self, size, pagingOptions)
+           };
 
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

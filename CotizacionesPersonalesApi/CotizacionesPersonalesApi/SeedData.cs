@@ -60,7 +60,7 @@ namespace CotizacionesPersonalesApi
 
             var servicio1 = context.Servicios.Add(new ServicioEntity
             {
-                ServicioId = 1,
+                //ServicioId = 1,
                 NombreServicio = "Creacion Logo comercial",
                 PrecioServicio = 500,
 
@@ -95,7 +95,7 @@ namespace CotizacionesPersonalesApi
 
             var servicio2 = context.Servicios.Add(new ServicioEntity
             {
-                ServicioId = 2,
+                //ServicioId = 2,
                 NombreServicio = "Creacion Logo empresarial",
                 PrecioServicio = 400,
 
@@ -112,7 +112,7 @@ namespace CotizacionesPersonalesApi
 
             var servicio3 = context.Servicios.Add(new ServicioEntity
             {
-                ServicioId = 3,
+                //ServicioId = 3,
                 NombreServicio = "Creacion Logo personal",
                 PrecioServicio = 300,
 
@@ -129,7 +129,7 @@ namespace CotizacionesPersonalesApi
 
             var servicio4 = context.Servicios.Add(new ServicioEntity
             {
-                ServicioId = 4,
+                //ServicioId = 4,
                 NombreServicio = "Creacion Logo poloche delante",
                 PrecioServicio = 33,
 
@@ -147,7 +147,7 @@ namespace CotizacionesPersonalesApi
 
             var servicio5 = context.Servicios.Add(new ServicioEntity
             {
-                ServicioId = 5,
+                //ServicioId = 5,
                 NombreServicio = "Creacion Logo poloche detras",
                 PrecioServicio = 25,
 
@@ -165,7 +165,7 @@ namespace CotizacionesPersonalesApi
 
             var servicio6 = context.Servicios.Add(new ServicioEntity
             {
-                ServicioId = 6,
+                //ServicioId = 6,
                 NombreServicio = "Creacion Logo camisa",
                 PrecioServicio = 50,
 

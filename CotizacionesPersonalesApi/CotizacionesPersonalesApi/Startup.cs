@@ -82,6 +82,10 @@ namespace CotizacionesPersonalesApi
                     return new BadRequestObjectResult(errorResponse);
                 };
             });
+
+            services.AddResponseCaching();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -102,6 +106,7 @@ namespace CotizacionesPersonalesApi
                 app.UseHsts();
             }
 
+            app.UseResponseCaching();
             app.UseCors("AllowMyApp");
             //app.UseHttpsRedirection();
             app.UseMvc();

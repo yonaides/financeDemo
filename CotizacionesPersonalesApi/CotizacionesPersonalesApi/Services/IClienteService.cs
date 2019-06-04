@@ -11,5 +11,8 @@ namespace CotizacionesPersonalesApi.Services
         Task<IEnumerable<Cliente>> GetClientesAsync();
 
         Task<Cliente> GetClienteAsync(int clienteId);
+
+        Task DeleteClienteAsync(int clienteId);
+
     }
 }

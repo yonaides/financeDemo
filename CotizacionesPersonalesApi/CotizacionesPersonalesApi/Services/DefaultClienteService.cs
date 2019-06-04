@@ -23,6 +23,15 @@ namespace CotizacionesPersonalesApi.Services
             _mappingConfiguration = mappingConfiguration;
         }
 
+        public async Task DeleteClienteAsync(int clienteId)
+        {
+            var cliente = await _context.Clientes.SingleOrDefaultAsync(b => b.ClienteId == clienteId);
+
+            _context.Clientes.Remove(cliente);
+            await _context.SaveChangesAsync();
+
+        }
+
         public async Task<Cliente> GetClienteAsync(int clienteId)
         {
             var entity = await _context.Clientes

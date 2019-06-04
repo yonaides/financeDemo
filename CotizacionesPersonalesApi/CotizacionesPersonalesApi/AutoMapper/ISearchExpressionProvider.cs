@@ -8,6 +8,8 @@ namespace CotizacionesPersonalesApi.AutoMapper
 {
     public interface ISearchExpressionProvider
     {
+        IEnumerable<string> GetOperators();
+
         ConstantExpression GetValue(string input);
 
         Expression GetComparison(

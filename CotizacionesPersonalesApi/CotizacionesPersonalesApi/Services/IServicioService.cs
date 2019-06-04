@@ -17,7 +17,6 @@ namespace CotizacionesPersonalesApi.Services
         Task<Servicio> GetServicioAsync(int servicioId);
 
         Task<int> CreateServicioAsync(
-            int servicioId,
             string nombreServicio ,
             int precioServicio );
     }

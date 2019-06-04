@@ -20,5 +20,7 @@ namespace CotizacionesPersonalesApi.Models
         [SearchableDecimal]
         public int PrecioServicio { get; set; }
 
+        public Form ServicioMetaData { get; set; }
+
     }
 }

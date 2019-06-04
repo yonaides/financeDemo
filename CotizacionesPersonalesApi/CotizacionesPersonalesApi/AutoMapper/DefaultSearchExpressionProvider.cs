@@ -8,10 +8,9 @@ namespace CotizacionesPersonalesApi.AutoMapper
 {
     public class DefaultSearchExpressionProvider : ISearchExpressionProvider
     {
-        public virtual Expression GetComparison(
-            MemberExpression left,
-            string op,
-            ConstantExpression right)
+        protected const string EqualsOperator = "eq";
+
+        public virtual Expression GetComparison( MemberExpression left, string op, ConstantExpression right)
         {
             if (!op.Equals("eq", StringComparison.OrdinalIgnoreCase))
                 throw new ArgumentException($"Invalid operator '{op}'.");
@@ -19,7 +18,11 @@ namespace CotizacionesPersonalesApi.AutoMapper
             return Expression.Equal(left, right);
         }
 
-        public virtual ConstantExpression GetValue(string input)
-            => Expression.Constant(input);
+        public IEnumerable<string> GetOperators()
+        {
+            yield return EqualsOperator;
+        }
+
+        public virtual ConstantExpression GetValue(string input) => Expression.Constant(input);
     }
 }
