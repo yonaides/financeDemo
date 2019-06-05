@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using CotizacionesPersonalesApi.AutoMapper;
 using CotizacionesPersonalesApi.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace CotizacionesPersonalesApi
 {
@@ -39,10 +40,14 @@ namespace CotizacionesPersonalesApi
             services.AddScoped<IClienteService, DefaultClienteService>();
             services.AddScoped<IServicioService, DefaultServicioService>();
             services.AddScoped<IDetalleServicioService, DefaultDetalleServicioService>();
+            services.AddScoped<IUserService, DefaultUserService>();
 
             // use in-memory  database for quik dev and testing 
             // TODO: Swap out for real database in production 
             services.AddDbContext<CotizacionesPersonalesApiDbContext>(options => options.UseInMemoryDatabase(databaseName : "cotizaciondb"));
+
+            // agregando UserIdentity
+            AddIdentityCoreServices(services);
 
             services
                 .AddMvc(options => 
@@ -84,6 +89,19 @@ namespace CotizacionesPersonalesApi
             });
 
             services.AddResponseCaching();
+
+        }
+
+        private void AddIdentityCoreServices(IServiceCollection services)
+        {
+            var builder = services.AddIdentityCore<UserEntity>();
+            builder = new IdentityBuilder(builder.UserType, typeof(UserRoleEntity), builder.Services);
+
+            builder
+                .AddRoles<UserRoleEntity>()
+                .AddEntityFrameworkStores<CotizacionesPersonalesApiDbContext>()
+                .AddDefaultTokenProviders()
+                .AddSignInManager<SignInManager<UserEntity>>();
 
 
         }

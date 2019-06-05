@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CotizacionesPersonalesApi.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CotizacionesPersonalesApi
 {
-    public class CotizacionesPersonalesApiDbContext : DbContext
+    public class CotizacionesPersonalesApiDbContext : IdentityDbContext<UserEntity, UserRoleEntity, Guid>
     {
-        public CotizacionesPersonalesApiDbContext(DbContextOptions options) : base(options) 
+        public CotizacionesPersonalesApiDbContext(DbContextOptions options) : base(options)
         {
         }
 
@@ -18,7 +19,6 @@ namespace CotizacionesPersonalesApi
         public DbSet<DetalleServicioEntity> DetalleServicios { get; set; }
         public DbSet<CotizacionEntity> Cotizaciones { get; set; }
         public DbSet<CotizacionDetalleEntity> CotizacionesDetalles { get; set; }
-
 
     }
 }
