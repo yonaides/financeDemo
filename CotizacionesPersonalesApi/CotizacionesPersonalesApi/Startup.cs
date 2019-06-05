@@ -19,6 +19,8 @@ using AutoMapper;
 using CotizacionesPersonalesApi.AutoMapper;
 using CotizacionesPersonalesApi.Services;
 using Microsoft.AspNetCore.Identity;
+using AspNet.Security.OpenIdConnect.Primitives;
+using OpenIddict.Validation;
 
 namespace CotizacionesPersonalesApi
 {
@@ -44,7 +46,43 @@ namespace CotizacionesPersonalesApi
 
             // use in-memory  database for quik dev and testing 
             // TODO: Swap out for real database in production 
-            services.AddDbContext<CotizacionesPersonalesApiDbContext>(options => options.UseInMemoryDatabase(databaseName : "cotizaciondb"));
+            services.AddDbContext<CotizacionesPersonalesApiDbContext>(options => {
+                options.UseInMemoryDatabase(databaseName: "cotizaciondb");
+                options.UseOpenIddict<Guid>();
+                });
+
+            // Add OpenIddict services
+            services.AddOpenIddict()
+                .AddCore(options =>
+                {
+                    options.UseEntityFrameworkCore()
+                        .UseDbContext<CotizacionesPersonalesApiDbContext>()
+                        .ReplaceDefaultEntities<Guid>();
+                })
+                .AddServer(options =>
+                {
+                    options.UseMvc();
+
+                    options.EnableTokenEndpoint("/token");
+
+                    options.AllowPasswordFlow();
+                    options.AcceptAnonymousClients();
+                })
+                .AddValidation();
+
+            // ASP.NET Core Identity should use the same claim names as OpenIddict
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
+            });
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = OpenIddictValidationDefaults.AuthenticationScheme;
+            });
+
 
             // agregando UserIdentity
             AddIdentityCoreServices(services);
@@ -89,6 +127,9 @@ namespace CotizacionesPersonalesApi
             });
 
             services.AddResponseCaching();
+            services.AddAuthorization(options => {
+                options.AddPolicy("ViewAllUsersPolicy", p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+            });
 
         }
 
@@ -124,6 +165,7 @@ namespace CotizacionesPersonalesApi
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
             app.UseResponseCaching();
             app.UseCors("AllowMyApp");
             //app.UseHttpsRedirection();

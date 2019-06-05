@@ -16,13 +16,16 @@ namespace CotizacionesPersonalesApi.Controllers
     {
         private readonly IUserService _userService;
         private readonly PagingOptions _defaultPagingOptions;
+        private readonly IAuthorizationService _authzService;
 
         public UsersController(
             IUserService userService,
-            IOptions<PagingOptions> defaultPagingOptions)
+            IOptions<PagingOptions> defaultPagingOptions,
+            IAuthorizationService authorizationService)
         {
             _userService = userService;
             _defaultPagingOptions = defaultPagingOptions.Value;
+            _authzService = authorizationService;
         }
 
         [HttpGet(Name = nameof(GetVisibleUsers))]
@@ -35,9 +38,27 @@ namespace CotizacionesPersonalesApi.Controllers
             pagingOptions.Limit = pagingOptions.Limit ?? _defaultPagingOptions.Limit;
 
             // TODO: Authorization check. Is the user an admin?
+            var users = new PagedResults<User>();
 
-            var users = await _userService.GetUsersAsync(
-                pagingOptions, sortOptions, searchOptions);
+            if (User.Identity.IsAuthenticated)
+            {
+                var canSeeEveryone = await _authzService.AuthorizeAsync(
+                    User, "ViewAllUsersPolicy");
+                if (canSeeEveryone.Succeeded)
+                {
+                    users = await _userService.GetUsersAsync(
+                        pagingOptions, sortOptions, searchOptions);
+                }
+                else
+                {
+                    var myself = await _userService.GetUserAsync(User);
+                    users.Items = new[] { myself };
+                    users.TotalSize = 1;
+                }
+            }
+
+            /*var users = await _userService.GetUsersAsync(
+                pagingOptions, sortOptions, searchOptions);*/
 
             var collection = PagedCollection<User>.Create(
                 Link.ToCollection(nameof(GetVisibleUsers)),
@@ -66,9 +87,14 @@ namespace CotizacionesPersonalesApi.Controllers
         public async Task<IActionResult> RegisterUser(
             [FromBody] RegisterForm form)
         {
-            var (succeeded, message) = await _userService.CreateUserAsync(form);
-            if (succeeded) return Created("todo", null);
+            /*var (succeeded, message) = await _userService.CreateUserAsync(form);
+            if (succeeded) return Created("todo", null);*/
             // TODO: link (no userinfo route yet)
+
+            var (succeeded, message) = await _userService.CreateUserAsync(form);
+            if (succeeded) return Created(
+                Url.Link(nameof(UserinfoController.Userinfo), null),
+                null);
 
             return BadRequest(new ApiError
             {
