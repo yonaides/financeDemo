@@ -203,14 +203,14 @@ namespace CotizacionesPersonalesApi
             // Add a test user
             var user = new UserEntity
             {
-                Email = "admin@landon.local",
-                UserName = "admin@landon.local",
+                Email = "admin@cotizacion.local",
+                UserName = "admin@cotizacion.local",
                 Nombres = "Admin",
                 Apellidos = "Tester",
                 CreatedAt = DateTimeOffset.UtcNow
             };
 
-            await userManager.CreateAsync(user, "Supersecret123!!");
+            await userManager.CreateAsync(user, "Hamashia@1981!");
 
             // Put the user in the admin role
             await userManager.AddToRoleAsync(user, "Admin");
